@@ -37,6 +37,10 @@ claude plugin install blender-skills@blender-claude-marketplace
 
 Copy the plugin directory into the agent's plugin search path. The agent needs to read `.claude-plugin/plugin.json` to discover the plugin and `skills/*/SKILL.md` to activate individual skills.
 
+### Blender MCP Server (recommended)
+
+The skills are designed to work alongside the **official Blender MCP Server** (Blender 5.1+). Once configured, Claude can drive Blender directly instead of emitting scripts to copy-paste. See [docs/blender-mcp-setup.md](docs/blender-mcp-setup.md) for the full setup. Skills work without it — they fall back to generating runnable `bpy` scripts.
+
 ## Usage
 
 The skills activate automatically based on your prompt. Ask Claude to:
@@ -101,6 +105,13 @@ skills/
 
 ## Changelog
 
+### v1.3.0 — Official Blender MCP Server
+
+- Re-targeted MCP integration from third-party `ahujasid/blender-mcp` to the **official Blender Lab MCP Server** (Blender 5.1+, <https://www.blender.org/lab/mcp-server/>).
+- Added `docs/blender-mcp-setup.md` with end-to-end setup (add-on install, MCP server install, Claude Code wiring, headless mode, troubleshooting).
+- Each `SKILL.md` MCP-First section now lists concrete official tool names (`execute_blender_code`, `get_objects_summary`, `search_api_docs`, screenshots, jump-to, render-to-path, …) and a recommended inspect → mutate → verify workflow.
+- README and `AGENTS.md` updated with the new architecture and tool catalog.
+
 ### v1.2.0 — Blender 5.1 Updates
 
 - **Geometry Nodes**: Bone Info node, String to Curves field inputs + Word output, volume grid nodes (Cube Grid, Clip Grid, Grid Mean/Median, Grid to Points, Grid Dilate/Erode), UV Unwrap Minimum Stretch (SLIM), Pack UV Islands custom region, Matrix SVD node, Get/Store Bundle Item nodes, Font socket type, node warning search (Ctrl+F), node tools as operators
@@ -119,11 +130,28 @@ skills/
 - Complete node/modifier/constraint catalogs with Python type strings
 - MCP-first approach with Python script fallback
 
-## MCP Integration
+## MCP Integration (Official Blender MCP Server)
 
-All skills prefer [Blender MCP](https://github.com/ahujasid/blender-mcp) when available for direct Blender interaction. They fall back to generating Python scripts when MCP is unavailable.
+All skills prefer the **official [Blender MCP Server](https://www.blender.org/lab/mcp-server/)** by Blender Lab when available for direct Blender interaction. They fall back to generating Python scripts when MCP is unavailable.
 
-To use with Blender MCP, install and configure the MCP server following the [blender-mcp instructions](https://github.com/ahujasid/blender-mcp). Once connected, the skills will automatically prefer MCP commands over generating standalone scripts.
+Setup at a glance:
+
+1. **Install Blender 5.1+ add-on** — drag-drop or zip install from <https://projects.blender.org/lab/blender_mcp/releases>. Add-on runs a TCP bridge on `localhost:9876`.
+2. **Install MCP server** — `pip install "git+https://projects.blender.org/lab/blender_mcp"` or use the `.mcpb` bundle.
+3. **Wire into Claude Code** — add `blender-mcp` to `mcpServers` in `~/.claude/settings.json`.
+
+Full guide: [docs/blender-mcp-setup.md](docs/blender-mcp-setup.md).
+
+> ⚠️ The MCP server executes LLM-generated Python in your Blender session with no sandbox. Use a VM or a workstation without sensitive data.
+
+Tools the skills use:
+
+- `execute_blender_code` — run `bpy` Python in Blender
+- `get_objects_summary`, `get_object_detail_summary` — scene inspection
+- `get_blendfile_summary_*` — datablocks, missing files, linked libraries, paths
+- `search_api_docs`, `get_python_api_docs`, `search_manual_docs` — bundled docs
+- `get_screenshot_of_*`, `jump_to_*` — UI inspection / navigation
+- `render_thumbnail_to_path`, `render_viewport_to_path` — quick renders
 
 ## License
 

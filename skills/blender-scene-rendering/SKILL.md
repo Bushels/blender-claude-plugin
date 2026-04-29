@@ -11,9 +11,23 @@ This skill provides expert guidance for Blender 5.x scene setup, render configur
 
 ## MCP-First Approach
 
-When a Blender MCP server is available in the environment, prefer using it for direct interaction with Blender (changing render settings, importing files, configuring scenes). Fall back to generating Python scripts when MCP is unavailable.
+Prefer the **official Blender MCP Server** (Blender Lab, Blender 5.1+) for changing render settings, importing files, configuring color management, kicking off renders directly in a running Blender session. Fall back to emitting Python scripts only when the MCP server is not connected.
 
-To check for Blender MCP availability, search available tools for "blender" at the start of a session.
+**Detection:** at session start, look for tools whose names match `execute_blender_code`, `get_objects_summary`, or `search_api_docs` — these belong to the official `blender-mcp` server. If any are present, MCP is available.
+
+**Tools used by this skill:**
+
+- `execute_blender_code` — run `bpy` Python in the live session (primary action)
+- `get_objects_summary`, `get_object_detail_summary` — inspect scene state before mutating
+- `get_blendfile_summary_datablocks` / `_missing_files` / `_of_linked_libraries` / `_path_info` / `_usage_guess` — inventory the file
+- `search_api_docs`, `get_python_api_docs`, `search_manual_docs` — confirm correct API/operator names before calling them
+- `get_screenshot_of_window_as_image` / `_as_json`, `get_screenshot_of_area_as_image` — verify visual results
+- `jump_to_tab_by_name`, `jump_to_tab_by_space_type`, `jump_to_view3d_object_by_name`, `jump_to_view3d_object_data_by_name` — drive the UI to make changes visible
+- `render_thumbnail_to_path`, `render_viewport_to_path` — capture quick visual feedback
+
+**Workflow:** inspect with a `get_*` / `search_*` tool → mutate via `execute_blender_code` → verify with a screenshot or summary tool. Keep code blocks small and idempotent so failures are easy to localize.
+
+Setup: see [docs/blender-mcp-setup.md](../../docs/blender-mcp-setup.md).
 
 ## Task Decision Tree
 
