@@ -47,8 +47,7 @@ When creating compositor setups via Python:
 
 1. Read `references/python_api.md` for the correct API patterns and node type names
 2. Structure the script following this pattern:
-   - Enable compositor use on the scene: `scene.use_nodes = True`
-   - Access the compositor node tree: `tree = scene.node_tree`
+   - Create a compositor node group and assign it (5.0+; `scene.node_tree` was removed): `tree = bpy.data.node_groups.new("Compositor", "CompositorNodeTree")` then `scene.compositing_node_group = tree`
    - Clear default nodes
    - Add all nodes with correct type strings
    - Position nodes left-to-right (x spacing ~300, y spacing ~200)

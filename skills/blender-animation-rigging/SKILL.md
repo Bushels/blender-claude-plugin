@@ -1,13 +1,13 @@
 ---
 name: blender-animation-rigging
-description: Blender 5.x animation and rigging — keyframes, FCurves, layered actions, drivers, constraints, armatures, IK/FK, shape keys, NLA editor, and bone collections via Python (bpy). Includes 5.1 changes (Smooth Gaussian FCurve modifier, Apply to Basis, layered action performance).
+description: Blender 5.x animation and rigging — keyframes, FCurves, layered actions, drivers, constraints, armatures, IK/FK, shape keys, NLA editor, and bone collections via Python (bpy). Includes 5.1 changes (Smooth Gaussian FCurve modifier, armature_apply pose-to-rest, layered action performance).
 ---
 
 # Blender Animation & Rigging Expert
 
 ## Overview
 
-This skill provides expert guidance for Blender 5.x animation and rigging: keyframing, FCurve editing, drivers, bone constraints, armature creation, IK/FK chains, shape keys, NLA strips, and Python automation of animation workflows. Includes 5.1 changes (Smooth Gaussian FCurve modifier, Apply to Basis, layered action performance). The reference files contain the complete constraint catalog and Python API patterns.
+This skill provides expert guidance for Blender 5.x animation and rigging: keyframing, FCurve editing, drivers, bone constraints, armature creation, IK/FK chains, shape keys, NLA strips, and Python automation of animation workflows. Includes 5.1 changes (Smooth Gaussian FCurve modifier, armature_apply pose-to-rest, layered action performance). The reference files contain the complete constraint catalog and Python API patterns.
 
 ## MCP-First Approach
 
@@ -49,9 +49,9 @@ Setup: see [docs/blender-mcp-setup.md](../../docs/blender-mcp-setup.md).
 3. Apply via Python: `fcurve.modifiers.new('Smooth', 'SMOOTH')` then set blend type
 4. Useful for reducing jitter in motion capture data
 
-### Apply to Basis (New in 5.1)
+### Apply Pose as Rest Pose
 1. Operator to apply the current pose as the new rest pose (bake pose to rest)
-2. Python: `bpy.ops.pose.apply_to_basis()`
+2. Python (Pose Mode, armature active): `bpy.ops.pose.armature_apply()` — pass `selected=True` to apply only selected bones
 3. Useful for fixing bone orientations after rigging
 
 ### Layered Actions Performance (5.1)

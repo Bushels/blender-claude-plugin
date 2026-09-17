@@ -1,6 +1,6 @@
 ---
 name: blender-modeling-modifiers
-description: Blender 5.x modifiers, bmesh API, mesh editing operators, sculpting setup — SubSurf, Boolean, Array, Mirror, Bevel, bmesh procedural mesh creation, and modeling pipelines via Python (bpy). Includes 5.1 changes (Boolean speed, Corrective Flip Normals, UV improvements).
+description: Blender 5.x modifiers, bmesh API, mesh editing operators, sculpting setup — SubSurf, Boolean, Array, Mirror, Bevel, bmesh procedural mesh creation, and modeling pipelines via Python (bpy). Includes 5.1 changes (Boolean speed, normal recalculation, UV improvements).
 ---
 
 # Blender Modeling & Modifiers Expert
@@ -47,10 +47,10 @@ Setup: see [docs/blender-mcp-setup.md](../../docs/blender-mcp-setup.md).
 2. Both FAST and EXACT solvers benefit from internal algorithm improvements
 3. Complex boolean operations on dense meshes see the largest speedups
 
-### Corrective Flip Normals
-1. New operator: `bpy.ops.mesh.corrective_flip_normals()`
-2. Computes the correct normal orientation based on surrounding geometry context
-3. More reliable than simple `normals_make_consistent` for non-manifold meshes
+### Fixing Normals (Edit Mode)
+1. Recalculate outward: `bpy.ops.mesh.normals_make_consistent(inside=False)` on the selected faces
+2. Reverse selected faces: `bpy.ops.mesh.flip_normals()`
+3. On non-manifold meshes recalculation can guess wrong — select the offending faces and flip them explicitly
 
 ### Snap to Face Center
 1. New snap option for snapping to the center of faces

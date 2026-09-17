@@ -7,11 +7,12 @@ import bpy
 
 scene = bpy.context.scene
 
-# Enable compositor
-scene.use_nodes = True
-
-# Access the compositor node tree
-tree = scene.node_tree
+# Create the compositor node group and assign it to the scene
+# (Blender 5.0+: scene.node_tree was removed)
+tree = scene.compositing_node_group
+if tree is None:
+    tree = bpy.data.node_groups.new("Compositor", "CompositorNodeTree")
+    scene.compositing_node_group = tree
 nodes = tree.nodes
 links = tree.links
 
@@ -467,8 +468,8 @@ links.new(render_layers.outputs['Depth'], file_out.inputs['depth_'])
 import bpy
 
 scene = bpy.context.scene
-scene.use_nodes = True
-tree = scene.node_tree
+tree = scene.compositing_node_group or bpy.data.node_groups.new("Compositor", "CompositorNodeTree")
+scene.compositing_node_group = tree
 nodes = tree.nodes
 links = tree.links
 nodes.clear()

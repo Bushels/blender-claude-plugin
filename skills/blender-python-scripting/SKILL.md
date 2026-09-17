@@ -52,7 +52,7 @@ Setup: see [docs/blender-mcp-setup.md](../../docs/blender-mcp-setup.md).
 1. `bpy.ops.anim.convert_legacy_action` — removed; layered actions handle this automatically
 
 ### API Additions
-1. `bpy.ops.pose.apply_to_basis()` — bake current pose as rest pose
+1. `bpy.ops.pose.armature_apply()` — bake current pose as rest pose (Pose Mode)
 2. Node socket types: `NodeSocketFont` for font data
 3. Volume grid node types for geometry nodes (see blender-geometry-nodes skill)
 ## Add-on Structure
