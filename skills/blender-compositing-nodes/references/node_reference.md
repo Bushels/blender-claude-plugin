@@ -1,4 +1,6 @@
-# Blender 5.0 Compositor Nodes - Complete Reference
+# Blender 5.x Compositor Nodes - Reference
+
+> Checked against Blender 5.2.1 (2026-09-17): every type string was instantiated headless. Types marked **removed in 5.x** no longer exist (most became generic shared nodes such as Math, Map Range, Color Ramp and Mix). Confirm any type with `describe_node_type` or the probe in `python_api.md` before scripting it.
 
 Approximately 70-80 compositor node implementations across 8 top-level categories.
 
@@ -16,9 +18,9 @@ Color (RGBA), Float (Value), Vector, Shader (not used in compositor)
 | Image          | CompositorNodeImage      | Loads a still image or image sequence                                                     |
 | Movie Clip     | CompositorNodeMovieClip  | Loads a movie clip for compositing/tracking                                               |
 | Mask           | CompositorNodeMask       | Loads a 2D mask from the mask editor                                                      |
-| Texture        | CompositorNodeTexture    | Generates pattern from a Blender texture data block                                       |
+| Texture        | ~~CompositorNodeTexture~~ **removed in 5.x**    | Generates pattern from a Blender texture data block                                       |
 | Color (RGB)    | CompositorNodeRGB        | Constant RGBA color value                                                                 |
-| Value          | CompositorNodeValue      | Constant float value                                                                      |
+| Value          | ~~CompositorNodeValue~~ **removed in 5.x**      | Constant float value                                                                      |
 | Bokeh Image    | CompositorNodeBokehImage | Generates a bokeh shape for custom DOF                                                    |
 | Time Curve     | CompositorNodeTime       | Outputs a value that varies over time based on a curve                                    |
 | Track Position | CompositorNodeTrackPos   | Outputs 2D tracking point position from a movie clip                                      |
@@ -40,15 +42,15 @@ Color (RGBA), Float (Value), Vector, Shader (not used in compositor)
 
 | Node                 | Type String                   | Description                                                                 |
 | -------------------- | ----------------------------- | --------------------------------------------------------------------------- |
-| Mix                  | CompositorNodeMixRGB          | Blends two images with various modes (Add, Multiply, Screen, Overlay, etc.) |
+| Mix                  | ~~CompositorNodeMixRGB~~ **removed in 5.x**          | Blends two images with various modes (Add, Multiply, Screen, Overlay, etc.) |
 | Alpha Over           | CompositorNodeAlphaOver       | Composites foreground over background using alpha                           |
 | Color Balance        | CompositorNodeColorBalance    | Lift/Gamma/Gain or Offset/Power/Slope color correction                      |
 | Bright/Contrast      | CompositorNodeBrightContrast  | Adjusts brightness and contrast                                             |
 | Hue/Saturation/Value | CompositorNodeHueSat          | Adjusts hue, saturation, and value                                          |
 | Color Correction     | CompositorNodeColorCorrection | Per-range (shadows, midtones, highlights) color correction                  |
 | Curves (RGB)         | CompositorNodeCurveRGB        | RGB tone curve adjustment                                                   |
-| Curves (Combined)    | CompositorNodeCurveVec        | Vector curves adjustment                                                    |
-| Gamma                | CompositorNodeGamma           | Gamma correction                                                            |
+| Curves (Combined)    | ~~CompositorNodeCurveVec~~ **removed in 5.x**        | Vector curves adjustment                                                    |
+| Gamma                | ~~CompositorNodeGamma~~ **removed in 5.x**           | Gamma correction                                                            |
 | Invert               | CompositorNodeInvert          | Inverts colors and/or alpha                                                 |
 | Posterize            | CompositorNodePosterize       | Reduces color levels                                                        |
 | Tonemap              | CompositorNodeTonemap         | HDR tonemapping (Rh Simple or R/D Filmic)                                   |
@@ -56,8 +58,8 @@ Color (RGBA), Float (Value), Vector, Shader (not used in compositor)
 | Combine Color        | CompositorNodeCombineColor    | Combines R, G, B, A into color (RGB, HSV, HSL, YCbCr, YUV modes)            |
 | Separate Color       | CompositorNodeSeparateColor   | Separates color into components (RGB, HSV, HSL, YCbCr, YUV modes)           |
 | Set Alpha            | CompositorNodeSetAlpha        | Replaces or multiplies alpha channel                                        |
-| Combine XYZ          | CompositorNodeCombineXYZ      | Combines X, Y, Z floats into vector                                         |
-| Separate XYZ         | CompositorNodeSeparateXYZ     | Splits vector into X, Y, Z floats                                           |
+| Combine XYZ          | ~~CompositorNodeCombineXYZ~~ **removed in 5.x**      | Combines X, Y, Z floats into vector                                         |
+| Separate XYZ         | ~~CompositorNodeSeparateXYZ~~ **removed in 5.x**     | Splits vector into X, Y, Z floats                                           |
 
 ---
 
@@ -78,7 +80,7 @@ Color (RGBA), Float (Value), Vector, Shader (not used in compositor)
 | Glare            | CompositorNodeGlare         | Bloom, Streaks, Fog Glow, Ghosts effects                                         |
 | Inpaint          | CompositorNodeInpaint       | Fills transparent regions by extending surrounding pixels                        |
 | Pixelate         | CompositorNodePixelate      | Pixelation effect                                                                |
-| Sun Beams        | CompositorNodeSunBeams      | Volumetric sun ray effect                                                        |
+| Sun Beams        | ~~CompositorNodeSunBeams~~ **removed in 5.x**      | Volumetric sun ray effect                                                        |
 | Anti-Aliasing    | CompositorNodeAntiAliasing  | SMAA anti-aliasing filter                                                        |
 | Kuwahara         | CompositorNodeKuwahara      | Painterly/oil-painting style filter (new in recent versions)                     |
 
@@ -88,11 +90,11 @@ Color (RGBA), Float (Value), Vector, Shader (not used in compositor)
 
 | Node                 | Type String                     | Description                                           |
 | -------------------- | ------------------------------- | ----------------------------------------------------- |
-| Map Range            | CompositorNodeMapRange          | Remaps a value from one range to another              |
-| Map Value            | CompositorNodeMapValue          | Offsets, scales, and clamps a value                   |
-| Color Ramp           | CompositorNodeValToRGB          | Maps a float value to a color gradient                |
+| Map Range            | ~~CompositorNodeMapRange~~ **removed in 5.x**          | Remaps a value from one range to another              |
+| Map Value            | ~~CompositorNodeMapValue~~ **removed in 5.x**          | Offsets, scales, and clamps a value                   |
+| Color Ramp           | ~~CompositorNodeValToRGB~~ **removed in 5.x**          | Maps a float value to a color gradient                |
 | RGB to BW            | CompositorNodeRGBToBW           | Converts color to grayscale value                     |
-| Math                 | CompositorNodeMath              | Mathematical operations on float values               |
+| Math                 | ~~CompositorNodeMath~~ **removed in 5.x**              | Mathematical operations on float values               |
 | Alpha Convert        | CompositorNodePremulKey         | Converts between premultiplied and straight alpha     |
 | Switch View          | CompositorNodeSwitchView        | Switches between stereoscopic views                   |
 | ID Mask              | CompositorNodeIDMask            | Creates mask from Object Index or Material Index pass |

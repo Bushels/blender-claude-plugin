@@ -60,7 +60,7 @@ When creating compositor setups via Python:
 
 - Most compositor nodes: `CompositorNode<PascalCaseName>` (e.g., `CompositorNodeRLayers`, `CompositorNodeDenoise`)
 - Final output (5.0+): the Composite node was removed. Add an `Image` output socket to the group interface and link into a `NodeGroupOutput` node. "→ Composite" in the recipes below means "→ Group Output"
-- When uncertain about the exact type string, consult `references/python_api.md`
+- When uncertain about a type string, property or socket name, look it up live (`describe_node_type`, `bpy_api_lookup`, or the probe in `references/python_api.md`) — do not guess
 
 ## Compositing Recipes
 
@@ -197,4 +197,4 @@ Key categories to search:
 
 ## Python API Reference
 
-For the complete Python API patterns including compositor node type strings, tree setup, render pass enabling, and File Output configuration, consult `references/python_api.md`.
+For verified 5.x patterns (tree setup, output node, socket-based settings, a complete denoise + grade pipeline) and the table of pre-5.0 → 5.x changes, consult `references/python_api.md`. It deliberately has no node catalog: look names up live.
