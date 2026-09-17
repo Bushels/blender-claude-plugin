@@ -60,16 +60,13 @@ scene_time = nodes.new(type='CompositorNodeSceneTime')
 ### Output Nodes
 
 ```python
-# Final composite output
-composite = nodes.new(type='CompositorNodeComposite')
+# Final output (5.0+: CompositorNodeComposite was removed).
+# The group needs an Image output socket, then link into a Group Output node.
+tree.interface.new_socket(name="Image", in_out='OUTPUT', socket_type='NodeSocketColor')
+composite = nodes.new(type='NodeGroupOutput')
 
 # Viewer (backdrop preview)
 viewer = nodes.new(type='CompositorNodeViewer')
-
-# Split viewer (comparison)
-split = nodes.new(type='CompositorNodeSplitViewer')
-split.axis = 'X'  # 'X' or 'Y'
-split.factor = 50  # Split position (percentage)
 
 # File Output (save to disk)
 file_out = nodes.new(type='CompositorNodeOutputFile')
@@ -92,7 +89,7 @@ alpha_over.premul = 0.0  # Premultiply factor
 
 # Color Balance
 color_balance = nodes.new(type='CompositorNodeColorBalance')
-color_balance.correction_method = 'LIFT_GAMMA_GAIN'  # or 'OFFSET_POWER_SLOPE'
+color_balance.inputs['Type'].default_value = 'Lift/Gamma/Gain'  # or 'Offset/Power/Slope (ASC-CDL)', 'White Point' (5.x: menu input, not a property)
 color_balance.lift = (1.0, 1.0, 1.0)
 color_balance.gamma = (1.0, 1.0, 1.0)
 color_balance.gain = (1.0, 1.0, 1.0)
@@ -385,8 +382,7 @@ view_layer.use_pass_object_index = True         # Object Index
 view_layer.use_pass_material_index = True       # Material Index
 
 # Denoising data
-view_layer.use_pass_denoising_normal = True     # For Denoise node
-view_layer.use_pass_denoising_albedo = True     # For Denoise node
+view_layer.cycles.denoising_store_passes = True  # For Denoise node (Cycles only): adds Denoising Normal/Albedo outputs
 
 # Light passes (Cycles)
 view_layer.use_pass_diffuse_direct = True
@@ -476,8 +472,8 @@ nodes.clear()
 
 # Enable required passes
 vl = bpy.context.view_layer
-vl.use_pass_denoising_normal = True
-vl.use_pass_denoising_albedo = True
+scene.render.engine = 'CYCLES'
+vl.cycles.denoising_store_passes = True  # adds Denoising Normal/Albedo outputs
 
 # Nodes
 rl = nodes.new('CompositorNodeRLayers')
@@ -488,13 +484,14 @@ denoise.location = (-300, 0)
 
 color_bal = nodes.new('CompositorNodeColorBalance')
 color_bal.location = (0, 0)
-color_bal.correction_method = 'LIFT_GAMMA_GAIN'
+color_bal.inputs['Type'].default_value = 'Lift/Gamma/Gain'
 
 hue_sat = nodes.new('CompositorNodeHueSat')
 hue_sat.location = (300, 0)
 hue_sat.inputs['Saturation'].default_value = 1.1
 
-comp = nodes.new('CompositorNodeComposite')
+tree.interface.new_socket(name="Image", in_out='OUTPUT', socket_type='NodeSocketColor')
+comp = nodes.new('NodeGroupOutput')
 comp.location = (600, 0)
 
 viewer = nodes.new('CompositorNodeViewer')

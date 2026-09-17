@@ -30,9 +30,8 @@ Color (RGBA), Float (Value), Vector, Shader (not used in compositor)
 
 | Node         | Type String               | Description                                            |
 | ------------ | ------------------------- | ------------------------------------------------------ |
-| Composite    | CompositorNodeComposite   | Final composited output (what gets saved/displayed)    |
+| Group Output | NodeGroupOutput           | Final composited output (5.0+; replaces removed CompositorNodeComposite) |
 | Viewer       | CompositorNodeViewer      | Preview node for backdrop display                      |
-| Split Viewer | CompositorNodeSplitViewer | Side-by-side comparison of two images                  |
 | File Output  | CompositorNodeOutputFile  | Saves images/passes to disk (supports multi-layer EXR) |
 
 ---

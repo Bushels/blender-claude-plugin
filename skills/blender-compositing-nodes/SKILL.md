@@ -58,7 +58,8 @@ When creating compositor setups via Python:
 
 ### Node Type String Conventions
 
-- Most compositor nodes: `CompositorNode<PascalCaseName>` (e.g., `CompositorNodeRLayers`, `CompositorNodeComposite`)
+- Most compositor nodes: `CompositorNode<PascalCaseName>` (e.g., `CompositorNodeRLayers`, `CompositorNodeDenoise`)
+- Final output (5.0+): the Composite node was removed. Add an `Image` output socket to the group interface and link into a `NodeGroupOutput` node. "→ Composite" in the recipes below means "→ Group Output"
 - When uncertain about the exact type string, consult `references/python_api.md`
 
 ## Compositing Recipes
@@ -67,7 +68,7 @@ When creating compositor setups via Python:
 
 1. Render Layers → Denoise node → Composite
 2. Connect: Image → Image, Denoising Normal → Normal, Denoising Albedo → Albedo
-3. Enable denoising data passes: `view_layer.use_pass_denoising_normal = True`, `view_layer.use_pass_denoising_albedo = True`
+3. Enable denoising data passes (Cycles): `view_layer.cycles.denoising_store_passes = True`
 4. Use the built-in Denoise node (OpenImageDenoise) for best quality
 5. For Cycles, prefer the built-in render denoiser (`scene.cycles.use_denoising = True`) for simpler setups
 
